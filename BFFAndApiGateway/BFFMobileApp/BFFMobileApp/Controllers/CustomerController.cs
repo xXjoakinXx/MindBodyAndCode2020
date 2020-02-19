@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -15,6 +16,7 @@ namespace BFFMobileApp.Controllers
     public class CustomerController : ControllerBase
     {
         private string _customerAPIUrl = "https://localhost:44398/Customer";
+        private string _vehicleAPIUrl = "https://localhost:44384/vehicle";
 
         private readonly ILogger<CustomerController> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -28,20 +30,50 @@ namespace BFFMobileApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerDto>>> Get()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _customerAPIUrl);
+            var requestToCustomerApi = new HttpRequestMessage(HttpMethod.Get, _customerAPIUrl);
+            var requestToVechicleApi = new HttpRequestMessage(HttpMethod.Get, _vehicleAPIUrl);
 
             var client = _httpClientFactory.CreateClient();
 
-            var response = await client.SendAsync(request);
+            var customerResponseTask = client.SendAsync(requestToCustomerApi);
+            var vehicleResponseTask = client.SendAsync(requestToVechicleApi);
 
-            if (response.IsSuccessStatusCode)
+            await Task.WhenAll(customerResponseTask, vehicleResponseTask);
+
+            var customerResponse = customerResponseTask.Result;
+            var vehicleResponse = vehicleResponseTask.Result;
+
+            if (customerResponse.IsSuccessStatusCode && vehicleResponse.IsSuccessStatusCode)
             {
-                var responseString = await response.Content.ReadAsStringAsync();
-                var customerDto = JsonConvert.DeserializeObject<IEnumerable<CustomerDto>>(responseString);
-                return Ok(customerDto);
+                IEnumerable<CustomerDto> customerDtos = await DeseralizeResponse<CustomerDto>(customerResponse);
+                IEnumerable<VehicleDto> vehicleDtos = await DeseralizeResponse<VehicleDto>(vehicleResponse);
+
+                var customerWithVehicleDtos = BuildResultDto(customerDtos, vehicleDtos);
+
+                return Ok(customerWithVehicleDtos);
             }
             else
                 return NoContent();
         }
+
+        private IEnumerable<CustomerDto> BuildResultDto(IEnumerable<CustomerDto> customerDtos, IEnumerable<VehicleDto> vehicleDtos)
+        {
+
+            foreach(var customerDto in customerDtos)
+            {
+                customerDto.Vehicle = vehicleDtos.FirstOrDefault(v => v.CustomerId == customerDto.CustomerId);
+            }
+
+            return customerDtos;
+        }
+
+        private async Task<IEnumerable<T>> DeseralizeResponse<T>(HttpResponseMessage customerResponse)
+        {
+            var responseString = await customerResponse.Content.ReadAsStringAsync();
+            var resultDto = JsonConvert.DeserializeObject<IEnumerable<T>>(responseString);
+            return resultDto;
+        }
+
+
     }
 }

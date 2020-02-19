@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 namespace BFFMobileApp.Dtos
 {
     [Serializable]
-    public class CustomerDto
+    public class VehicleDto
     {
-        public CustomerDto()
+        public VehicleDto()
         {
-                
+
         }
 
         public Guid CustomerId { get; set; }
 
-        public string Name { get; set; }
+        public Guid VechicleId { get; set; }
 
-        public VehicleDto Vehicle { get; set; }
+        public string Enrollment { get; set; }
+
+        public string Brand { get; set; }
     }
 }
