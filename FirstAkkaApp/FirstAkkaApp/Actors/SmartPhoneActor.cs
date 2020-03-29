@@ -1,15 +1,26 @@
 ﻿using Akka.Actor;
+using FirstAkkaApp.Actors.Messages;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FirstAkkaApp.Actors
 {
-    public class SmartPhoneActor : UntypedActor
+    public class SmartPhoneActor : ReceiveActor
     {
-        protected override void OnReceive(object message)
+        private int _lostCalls = 0;
+
+        public SmartPhoneActor()
         {
-            Console.WriteLine($"SmartPhoneActor Receive a message: {message}");
+            Receive<SmsMessage>( message =>
+            {
+                Console.WriteLine($"SmartPhoneActor New SMS received: {message.Text}");
+                Context.Sender.Tell(new SmsMessage("Hola! Estoy bien, me has pillado comprando en el supermercado"));
+            });
+            
+            Receive<LostCallMessage>(message => {
+                _lostCalls++;
+                Console.WriteLine($"Lost call received! You have missed {_lostCalls} calls");
+            });
+
         }
     }
 }

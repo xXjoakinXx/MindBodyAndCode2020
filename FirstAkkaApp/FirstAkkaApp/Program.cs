@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using FirstAkkaApp.Actors;
+using FirstAkkaApp.Actors.Messages;
 using System;
 
 namespace FirstAkkaApp
@@ -14,8 +15,12 @@ namespace FirstAkkaApp
             // Desplegamos en el sistema de actores un nuevo Actor y nos quedamos con su referencia
             var smartPhoneActor = actorSystem.ActorOf<SmartPhoneActor>("smartPhoneActorOne");
 
-            // Enviamos al actor smartPhoneActorOne un mensaje
-            smartPhoneActor.Tell("Hola! ¿Que tal estas?");
+            smartPhoneActor.Tell(new LostCallMessage());
+            smartPhoneActor.Tell(new LostCallMessage());
+            smartPhoneActor.Tell(new LostCallMessage());
+            var response = smartPhoneActor.Ask<SmsMessage>(new SmsMessage("Hola! Te he llamado pero no respondías... espero que estés bien!"));
+
+            Console.WriteLine(response.Result.Text);
 
             Console.ReadLine();
         }
