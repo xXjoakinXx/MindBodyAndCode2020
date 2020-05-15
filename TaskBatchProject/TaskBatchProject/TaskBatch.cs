@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,6 +49,8 @@ namespace TaskBatchProject
             try
             {
                 var results = await Task.WhenAll(_tasks);
+
+                Console.WriteLine($"Process {results.Count()} Tasks in batch!");
 
                 _results.AddRange(results);
                 _tasks.Clear();

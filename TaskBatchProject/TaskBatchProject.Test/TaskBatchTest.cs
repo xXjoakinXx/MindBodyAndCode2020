@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -28,16 +29,23 @@ namespace TaskBatchProject.Test
             });
         }
 
-        //[Fact]
-        //public async Task Batch_test()
-        //{
-        //    var array = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        //    var resultArray = new int[10] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+        [Fact]
+        public async Task Batch_test()
+        {
+            var array = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var resultArray = new int[10] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
 
-        //    for(int index = 0; index < array.Length; index++)
-        //        //TODO: Continue example withou taskBatch
+            List<Task<ResultObject>> tasks = new List<Task<ResultObject>>();
 
-        //}
+            for (int index = 0; index < array.Length; index++)
+                tasks.Add(NextSumValue(index, 10));
+
+            await Task.WhenAll(tasks);
+
+            var result = tasks.Select(t => t.Result);
+
+            Assert.Equal(result.Select(r => r.Value), resultArray);
+        }
 
         [Fact]
         public async Task Batching_Tasks_Less_MaxBatch_Correct()
@@ -48,7 +56,7 @@ namespace TaskBatchProject.Test
             TaskBatch<ResultObject> taskBatch = new TaskBatch<ResultObject>(5);
 
             for (int index = 0; index < array.Length; index++)
-                taskBatch.Add(NextSumValue(index, 10));
+                await taskBatch.Add(NextSumValue(index, 10));
 
             var result = await taskBatch.GetResults();
 

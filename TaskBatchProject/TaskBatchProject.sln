@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskBatchProject", "TaskBatchProject\TaskBatchProject.csproj", "{E8667B0E-FD25-4C13-B569-21AF6B78251C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskBatchProject", "TaskBatchProject\TaskBatchProject.csproj", "{E8667B0E-FD25-4C13-B569-21AF6B78251C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskBatchProject.Test", "TaskBatchProject.Test\TaskBatchProject.Test.csproj", "{CAE6F815-F2FE-40D2-87BC-A92FB8CD3BED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskBatchProject.Test", "TaskBatchProject.Test\TaskBatchProject.Test.csproj", "{CAE6F815-F2FE-40D2-87BC-A92FB8CD3BED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskBactch.Console", "TaskBactch.Console\TaskBactch.Console.csproj", "{79059BD5-E85F-4EDB-A8C3-641B47E44E9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{CAE6F815-F2FE-40D2-87BC-A92FB8CD3BED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAE6F815-F2FE-40D2-87BC-A92FB8CD3BED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAE6F815-F2FE-40D2-87BC-A92FB8CD3BED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79059BD5-E85F-4EDB-A8C3-641B47E44E9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79059BD5-E85F-4EDB-A8C3-641B47E44E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79059BD5-E85F-4EDB-A8C3-641B47E44E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79059BD5-E85F-4EDB-A8C3-641B47E44E9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
