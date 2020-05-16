@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Threading.Tasks;
 using TaskBatchProject;
 
@@ -8,19 +11,27 @@ namespace TaskBactch.Console
     {
         static async Task Main(string[] args)
         {
-            System.Console.WriteLine("Hello World!");
+            System.Console.WriteLine("Start TaskBatch Test!");
+            System.Console.WriteLine("Input Example:");
 
             var array = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            var resultArray = new int[10] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+            foreach (var i in array)
+                System.Console.Write($"{i}:");
 
-            TaskBatch<ResultObject> taskBatch = new TaskBatch<ResultObject>(5);
+            System.Console.WriteLine("");
+
+            TaskBatch<ResultObject> taskBatch = new TaskBatch<ResultObject>(4);
 
             for (int index = 0; index < array.Length; index++)
                 await taskBatch.Add(NextSumValue(index, 10));
 
             var result = await taskBatch.GetResults();
 
-            System.Console.WriteLine("ENDED");
+            System.Console.WriteLine("End TaskBatch process");
+            System.Console.WriteLine("Example Result:");
+            foreach (var r in result)
+                System.Console.Write($"{r.Value}:");
+
             System.Console.ReadLine();
         }
 
