@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>MindBodyAndCode</Authors>
+    <Description>Allow execute tasks in batches</Description>
+    <PackageProjectUrl>https://mindbodyncode.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/xXjoakinXx/MindBodyAndCode2020/tree/master/TaskBatchProject</RepositoryUrl>
+    <PackageTags>Async, Task, Batch</PackageTags>
+    <PackageId>MindBodyNCode.TaskBatch</PackageId>
+    <Product>MindBodyNCode.TaskBatch</Product>
   </PropertyGroup>
 
 </Project>
