@@ -10,6 +10,7 @@
     <PackageTags>Async, Task, Batch</PackageTags>
     <PackageId>MindBodyNCode.TaskBatch</PackageId>
     <Product>MindBodyNCode.TaskBatch</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>
