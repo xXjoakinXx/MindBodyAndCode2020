@@ -86,5 +86,15 @@ namespace DesignRESTAPI.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult Remove(int id)
+        {
+            var vehicle = Vehicles.FirstOrDefault(v => v.ID == id);
+
+            Vehicles.Remove(vehicle);
+
+            return Ok();
+        }
     }
 }
