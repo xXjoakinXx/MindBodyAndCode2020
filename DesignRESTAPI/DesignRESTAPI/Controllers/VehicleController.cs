@@ -39,6 +39,13 @@ namespace DesignRESTAPI.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        public ActionResult<IEnumerable<Vehicle>> Get([FromQuery]string color)
+        {
+            var vehicle = Vehicles.Where(v => v.Color == color);
+            return Ok(vehicle);
+        }
+
         [HttpGet("{id}")]
         public ActionResult<IEnumerable<Vehicle>> Get(int id)
         {
