@@ -4,11 +4,11 @@ using System;
 
 namespace FirstAkkaApp.Actors
 {
-    public class SmartPhoneActor : ReceiveActor
+    public class SmartPhoneActorV1 : ReceiveActor
     {
         private int _lostCalls = 0;
 
-        public SmartPhoneActor()
+        public SmartPhoneActorV1()
         {
             Receive<SmsMessage>( message =>
             {
