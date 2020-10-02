@@ -4,10 +4,12 @@ using System;
 
 namespace FirstAkkaApp.Actors
 {
-    public class SmartPhoneActorV2 : ReceiveActor
+    public class SmartPhoneActorV2 : ReceiveActor, IWithUnboundedStash
     {
         private int _phoneNumber = 0;
         private int _lostMessage = 0;
+
+        public IStash Stash { get; set; }
 
         public SmartPhoneActorV2()
         {
@@ -21,7 +23,7 @@ namespace FirstAkkaApp.Actors
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"SmartPhoneActor New SMS received: {message.Text}");
 
-                _lostMessage = 0;
+                if (_lostMessage > 0) _lostMessage--;
             });
 
             Receive<IncomingCall>(message => {
@@ -40,6 +42,7 @@ namespace FirstAkkaApp.Actors
             Receive<IncomingCall>(message => {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"SmartPhoneActor Is busy with other call sorry....");
+                Stash.Stash();
             });
 
             Receive<SmsMessage>(message =>
@@ -48,6 +51,7 @@ namespace FirstAkkaApp.Actors
 
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"SmartPhoneActor queued messages: {_lostMessage}");
+                Stash.Stash();
             });
 
             Receive<HangUp>(message =>
@@ -56,6 +60,7 @@ namespace FirstAkkaApp.Actors
                 Console.WriteLine($"SmartPhoneActor Ended Call with: {_phoneNumber}");
                 _phoneNumber = 0;
                 Become(Receiver);
+                Stash.UnstashAll(e => e.Message is SmsMessage);
             });
         }
     }
